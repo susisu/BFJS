@@ -1,7 +1,7 @@
 {
   "name": "@susisu/bfjs",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Brainf*ck interpreter",
   "main": "index.js",
   "directories": {
     "bin": "bin"
