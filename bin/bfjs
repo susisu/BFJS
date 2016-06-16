@@ -23,12 +23,14 @@ process.stdin.setEncoding("utf8");
 program.usage("[options] <progfile>");
 program.version(packageInfo.version, "-v, --version");
 program.option("-e, --eval <program>", "evaluate program");
-program.option("-n, --nullterm", "terminate input with a NULL character");
+program.option("--nullterm", "terminate input with a NULL character");
+program.option("--negindex", "allow negative index");
 program.parse(process.argv);
 
 let main = co(function * () {
     const EVAL     = program["eval"];
     const NULLTERM = program["nullterm"];
+    const NEGINDEX = program["negindex"];
     if (EVAL === undefined && program.args.length === 0) {
         program.help();
     }
@@ -42,8 +44,14 @@ let main = co(function * () {
     let prog = bf.parser.parse(PROGFILE, src);
     // run
     let vm = new bf.vm.VM(
+        [],
+        0,
         stdinStream(NULLTERM),
-        c => process.stdout.write(String.fromCharCode(c))
+        c => process.stdout.write(String.fromCharCode(c)),
+        {
+            autoReisizing     : true,
+            allowNegativeIndex: NEGINDEX
+        }
     );
     yield vm.run(prog).then(_ => process.exit(0));
 }).catch(error => {
