@@ -49,7 +49,7 @@ let main = co(function * () {
         stdinStream(NULLTERM),
         c => process.stdout.write(String.fromCharCode(c)),
         {
-            autoReisizing     : true,
+            autoResizing     : true,
             allowNegativeIndex: NEGINDEX
         }
     );
