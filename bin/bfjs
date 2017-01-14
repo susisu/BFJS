@@ -10,7 +10,6 @@
 const fs = require("fs");
 
 const co = require("co");
-const lq = require("loquat");
 
 const program = require("commander");
 
@@ -55,7 +54,7 @@ co(function* () {
     );
     yield vm.run(prog).then(() => process.exit(0));
 }).catch(error => {
-    if (error instanceof bf.error.RuntimeError || error instanceof lq.ParseError) {
+    if (error instanceof bf.error.RuntimeError || error instanceof bf.error.ParseError) {
         process.stderr.write(error.toString() + "\n");
     }
     else {
